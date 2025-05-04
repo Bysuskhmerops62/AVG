@@ -1126,7 +1126,7 @@ local function closeSearch()
 	Main.Search.Input.Interactable = false
 end
 
-local function Hide(notify: boolean?)
+function Hide(notify: boolean?)
 	if MPrompt then
 		MPrompt.Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 		MPrompt.Position = UDim2.new(0.5, 0, 0, -50)
@@ -1141,9 +1141,9 @@ local function Hide(notify: boolean?)
 	Debounce = true
 	if notify then
 		if useMobilePrompt then 
-			RayfieldLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping 'Show Rayfield'.", Duration = 2, Image = 4400697855})
+			RayfieldLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping 'Show Rayfield'.", Duration = 1, Image = 4400697855})
 		else
-			RayfieldLibrary:Notify({Title = "Interface Hidden", Content = `The interface has been hidden, you can unhide the interface by tapping {settingsTable.General.rayfieldOpen.Value or 'K'}.`, Duration = 2, Image = 4400697855})
+			RayfieldLibrary:Notify({Title = "Interface Hidden", Content = `The interface has been hidden, you can unhide the interface by tapping {settingsTable.General.rayfieldOpen.Value or 'K'}.`, Duration = 1, Image = 4400697855})
 		end
 	end
 
@@ -1210,7 +1210,7 @@ local function Hide(notify: boolean?)
 	Debounce = false
 end
 
-local function Maximise()
+function Maximise()
 	Debounce = true
 	Topbar.ChangeSize.Image = "rbxassetid://"..10137941941
 
@@ -1275,7 +1275,7 @@ local function Maximise()
 end
 
 
-local function Unhide()
+function Unhide()
 	Debounce = true
 	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
 	Main.Visible = true
@@ -1365,7 +1365,7 @@ local function Unhide()
 	Debounce = false
 end
 
-local function Minimise()
+function Minimise()
 	Debounce = true
 	Topbar.ChangeSize.Image = "rbxassetid://"..11036884234
 
