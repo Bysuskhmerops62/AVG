@@ -1,6 +1,10 @@
 
 if debugX then
-	warn('Initialising Rayfield')
+	game.StarterGui:SetCore("SendNotification", {
+    Title = "Notification GUI : ";
+    Text = "Initialising Rayfield";
+    Duration = 2;
+})
 end
 
 local function getService(name)
@@ -88,7 +92,13 @@ local cachedSettings
 --local prompt = useStudio and require(script.Parent.prompt) or loadWithTimeout('https://raw.githubusercontent.com/SiriusSoftwareLtd/Sirius/refs/heads/request/prompt.lua')
 local request = (syn and syn.request) or (fluxus and fluxus.request) or (http and http.request) or http_request or request
 
-
+function noti(title)
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Notification GUI : ";
+    Text = title;
+    Duration = 2;
+})
+end
 
 local function loadSettings()
 	local file = nil
@@ -143,27 +153,43 @@ local function loadSettings()
 	
 	if not success then 
 		if writefile then
-			warn('Rayfield had an issue accessing configuration saving capability.')
+			game.StarterGui:SetCore("SendNotification", {
+    Title = "Notification GUI : ";
+    Text = "Rayfield had an issue accessing configuration saving capability";
+    Duration = 2;
+})
 		end
 	end
 end
 
 if debugX then
-	warn('Now Loading Settings Configuration')
+	game.StarterGui:SetCore("SendNotification", {
+    Title = "Notification GUI : ";
+    Text = "Now Loading Settings Configuration";
+    Duration = 2;
+})
 end
 
 loadSettings()
 
 if debugX then
-	warn('Settings Loaded')
+	game.StarterGui:SetCore("SendNotification", {
+    Title = "Notification GUI : ";
+    Text = "Settings Loaded";
+    Duration = 2;
+})
 end
 
 --if not cachedSettings or not cachedSettings.System or not cachedSettings.System.usageAnalytics then
 --	local fileFunctionsAvailable = isfile and writefile and readfile
 
 --	if not fileFunctionsAvailable and not useStudio then
---		warn('Rayfield Interface Suite | Sirius Analytics:\n\n\nAs you don\'t have file functionality with your executor, we are unable to save whether you want to opt in or out to analytics.\nIf you do not want to take part in anonymised usage statistics, let us know in our Discord at sirius.menu/discord and we will manually opt you out.')
 --		analytics = true	
+--         game.StarterGui:SetCore("SendNotification", {
+ --   Title = "Notification Gui : ";
+--    Text = "Rayfield Interface Suite | Sirius Analytics:\n\n\nAs you don\'t have file functionality with your executor, we are unable to save whether you want to opt in or out to analytics.\nIf you do not want to take part in anonymised usage statistics, let us know in our Discord at sirius.menu/discord and we will manually opt you out.";
+--    Duration = 2; -- seconds
+--    })
 --	else
 --		prompt.create(
 --			'Help us improve',
@@ -184,11 +210,11 @@ end
 
 if not requestsDisabled then
 	if debugX then
-		warn('Querying Settings for Reporter Information')
+		noti('Querying Settings for Reporter Information')
 	end
 	local function sendReport()
 		if useStudio then
-			print('Sending Analytics')
+			noti('Sending Analytics')
 		else
 			if debugX then warn('Reporting Analytics') end
 			task.spawn(function()
@@ -200,10 +226,10 @@ if not requestsDisabled then
 						reporter.report("Rayfield", Release, InterfaceBuild)
 					end)
 				else
-					warn("Failed to load or execute the reporter. \nPlease notify Rayfield developers at sirius.menu/discord.")
+					noti("Failed to load or execute the reporter. \nPlease notify Rayfield developers at sirius.menu/discord.")
 				end
 			end)
-			if debugX then warn('Finished Report') end
+			if debugX then noti('Finished Report') end
 		end
 	end
 	if cachedSettings and (#cachedSettings == 0 or (cachedSettings.System and cachedSettings.System.usageAnalytics and cachedSettings.System.usageAnalytics.Value)) then
@@ -214,7 +240,7 @@ if not requestsDisabled then
 end
 
 if debugX then
-	warn('Moving on to continue initialisation')
+	noti('Moving on to continue initialisation')
 end
 
 local RayfieldLibrary = {
@@ -623,8 +649,8 @@ repeat
 	correctBuild = false
 
 	if not warned then
-		warn('Rayfield | Build Mismatch')
-		print('Rayfield may encounter issues as you are running an incompatible interface version ('.. ((Rayfield:FindFirstChild('Build') and Rayfield.Build.Value) or 'No Build') ..').\n\nThis version of Rayfield is intended for interface build '..InterfaceBuild..'.')
+		moti('Rayfield | Build Mismatch')
+		noti('Rayfield may encounter issues as you are running an incompatible interface version ('.. ((Rayfield:FindFirstChild('Build') and Rayfield.Build.Value) or 'No Build') ..').\n\nThis version of Rayfield is intended for interface build '..InterfaceBuild..'.')
 		warned = true
 	end
 
@@ -756,7 +782,7 @@ end
 
 local function getIcon(name : string): {id: number, imageRectSize: Vector2, imageRectOffset: Vector2}
 	if not Icons then
-		warn("Lucide Icons: Cannot use icons as icons library is not loaded")
+		noti("Lucide Icons: Cannot use icons as icons library is not loaded")
 		return
 	end
 	name = string.match(string.lower(name), "^%s*(.*)%s*$") :: string
@@ -770,7 +796,7 @@ local function getIcon(name : string): {id: number, imageRectSize: Vector2, imag
 	local riro = r[3]
 
 	if type(r[1]) ~= "number" or type(rirs) ~= "table" or type(riro) ~= "table" then
-		error("Lucide Icons: Internal error: Invalid auto-generated asset entry")
+		noti("Lucide Icons: Internal error: Invalid auto-generated asset entry")
 	end
 
 	local irs = Vector2.new(rirs[1], rirs[2])
@@ -790,9 +816,9 @@ local function getAssetUri(id: any): string
 	if type(id) == "number" then
 		assetUri = "rbxassetid://" .. id
 	elseif type(id) == "string" and not Icons then
-		warn("Rayfield | Cannot use Lucide icons as icons library is not loaded")
+		noti("Rayfield | Cannot use Lucide icons as icons library is not loaded")
 	else
-		warn("Rayfield | The icon argument must either be an icon ID (number) or a Lucide icon name (string)")
+		noti("Rayfield | The icon argument must either be an icon ID (number) or a Lucide icon name (string)")
 	end
 	return assetUri
 end
@@ -907,8 +933,8 @@ local function LoadConfiguration(Configuration)
 				end
 			end)
 		else
-			warn("Rayfield | Unable to find '"..FlagName.. "' in the save file.")
-			print("The error above may not be an issue if new elements have been added or not been set values.")
+			noti("Rayfield | Unable to find '"..FlagName.. "' in the save file.")
+			noti("The error above may not be an issue if new elements have been added or not been set values.")
 			--RayfieldLibrary:Notify({Title = "Rayfield Flags", Content = "Rayfield was unable to find '"..FlagName.. "' in the save file. Check sirius.menu/discord for help.", Image = 3944688398})
 		end
 	end
@@ -1015,8 +1041,8 @@ function RayfieldLibrary:Notify(data) -- action e.g open messages
 		newNotification.Visible = true
 
 		if data.Actions then
-			warn('Rayfield | Not seeing your actions in notifications?')
-			print("Notification Actions are being sunset for now, keep up to date on when they're back in the discord. (sirius.menu/discord)")
+			noti('Rayfield | Not seeing your actions in notifications?')
+			noti("Notification Actions are being sunset for now, keep up to date on when they're back in the discord. (sirius.menu/discord)")
 		end
 
 		-- Calculate textbounds and set initial values
@@ -1446,7 +1472,7 @@ local function createSettings(window)
 	if not (writefile and isfile and readfile and isfolder and makefolder) and not useStudio then
 		if Topbar['Settings'] then Topbar.Settings.Visible = false end
 		Topbar['Search'].Position = UDim2.new(1, -75, 0.5, 0)
-		warn('Can\'t create settings as no file-saving functionality is available.')
+		noti('Can\'t create settings as no file-saving functionality is available.')
 		return
 	end
 
@@ -1584,10 +1610,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 		if not success then
 			local success, result2 = pcall(ChangeTheme, 'Default')
 			if not success then
-				warn('CRITICAL ERROR - NO DEFAULT THEME')
+				noti('CRITICAL ERROR - NO DEFAULT THEME')
 				print(result2)
 			end
-			warn('issue rendering theme. no theme on file')
+			noti('issue rendering theme. no theme on file')
 			print(result)
 		end
 	end
@@ -1692,8 +1718,8 @@ function RayfieldLibrary:CreateWindow(Settings)
 					Settings.KeySettings.Key[i] = string.gsub(Settings.KeySettings.Key[i], " ", "")
 				end)
 				if not Success then
-					print("Rayfield | "..Key.." Error " ..tostring(Response))
-					warn('Check docs.sirius.menu for help with Rayfield specific development.')
+					noti("Rayfield | "..Key.." Error " ..tostring(Response))
+					noti('Check docs.sirius.menu for help with Rayfield specific development.')
 				end
 			end
 		end
@@ -2042,7 +2068,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 					TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 					TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
-					Button.Title.Text = "Callback Error"
+					Button.Title.Text = "Error : "..tostring(Response)
 					print("Rayfield | "..ButtonSettings.Name.." Callback Error " ..tostring(Response))
 					warn('Check docs.sirius.menu for help with Rayfield specific development.')
 					task.wait(0.5)
@@ -2546,7 +2572,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not Success then
 					TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 					TweenService:Create(Input.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
-					Input.Title.Text = "Callback Error"
+					Input.Title.Text = "Error : "..tostring(Response)
 					print("Rayfield | "..InputSettings.Name.." Callback Error " ..tostring(Response))
 					warn('Check docs.sirius.menu for help with Rayfield specific development.')
 					task.wait(0.5)
@@ -2997,7 +3023,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 						if not Success then
 							TweenService:Create(Keybind, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 							TweenService:Create(Keybind.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
-							Keybind.Title.Text = "Callback Error"
+							Keybind.Title.Text = "Error : "..tostring(Response)
 							print("Rayfield | "..KeybindSettings.Name.." Callback Error " ..tostring(Response))
 							warn('Check docs.sirius.menu for help with Rayfield specific development.')
 							task.wait(0.5)
@@ -3127,7 +3153,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				if not Success then
 					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
-					Toggle.Title.Text = "Callback Error"
+					Toggle.Title.Text = "Error : "..tostring(Response)
 					print("Rayfield | "..ToggleSettings.Name.." Callback Error " ..tostring(Response))
 					warn('Check docs.sirius.menu for help with Rayfield specific development.')
 					task.wait(0.5)
@@ -3326,7 +3352,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 							if not Success then
 								TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
 								TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
-								Slider.Title.Text = "Callback Error"
+								Slider.Title.Text = "Error : "..tostring(Response)
 								print("Rayfield | "..SliderSettings.Name.." Callback Error " ..tostring(Response))
 								warn('Check docs.sirius.menu for help with Rayfield specific development.')
 								task.wait(0.5)
