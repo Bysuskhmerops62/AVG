@@ -1000,6 +1000,7 @@ end
 function RayfieldLibrary:Notify(data) -- action e.g open messages
 	task.spawn(function()
 
+        music(7383525713)
 		-- Notification Object Creation
 		local newNotification = Notifications.Template:Clone()
 		newNotification.Name = data.Title or 'No Title Provided'
@@ -1579,10 +1580,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 	LoadingFrame.Subtitle.TextTransparency = 1
 
 	LoadingFrame.Version.TextTransparency = 1
-	LoadingFrame.Title.Text = Settings.LoadingTitle or "Rayfield"
+	LoadingFrame.Title.Text = Settings.LoadingTitle or "SYNAPSE HUB"
 	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "Interface Suite"
 
-	if Settings.LoadingTitle ~= "Rayfield Interface Suite" then
+	if Settings.LoadingTitle ~= "SYNAPSE HUB" then
 		LoadingFrame.Version.Text = "Rayfield UI"
 	end
 
@@ -3473,7 +3474,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		Topbar.Settings.ImageTransparency = 1
 	end
 	Topbar.ChangeSize.ImageTransparency = 1
-	Topbar.Hide.ImageTransparency = 1
+	Topbar.Hide.ImageTransparency = 1 
 
 
 	task.wait(0.5)
@@ -3517,7 +3518,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 	return Window
 end
 
-local function setVisibility(visibility: boolean, notify: boolean?)
+function setVisibility(visibility: boolean, notify: boolean?)
 	if Debounce then return end
 	if visibility then
 		Hidden = false
@@ -3628,9 +3629,11 @@ if Topbar:FindFirstChild('Settings') then
 
 end
 
+Topbar.Hide.Visible = false
+
 
 Topbar.Hide.MouseButton1Click:Connect(function()
-	setVisibility(Hidden, not useMobileSizing)
+	
 end)
 
 hideHotkeyConnection = UserInputService.InputBegan:Connect(function(input, processed)
